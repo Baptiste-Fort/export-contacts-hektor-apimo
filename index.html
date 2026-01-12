@@ -133,9 +133,9 @@
                 PROPOSITION DE MISSION
             </div>
 
-            <h1 class="font-display font-black text-5xl md:text-7xl mb-8 leading-none">
-                BONJOUR<br>
-                <span class="text-brut-accent">RÉSEAU BONAPARTE</span>
+            <h1 class="font-display font-black text-4xl md:text-6xl mb-8 leading-none">
+                EXPORT CONTACTS<br>
+                <span class="text-brut-accent">HEKTOR → APIMO</span>
             </h1>
 
             <div class="space-y-6 text-lg font-sans font-medium max-w-4xl">
@@ -226,25 +226,24 @@
                                 <span class="absolute left-0 top-0 font-black text-brut-purple">1.</span>
                                 <strong class="block">Extraction des données Hektor</strong>
                                 <span class="text-sm">Script Python qui récupère tous les contacts depuis l'interface
-                                    Hektor. On parse les pages, on extrait les infos.</span>
+                                    Hektor.</span>
                             </li>
                             <li class="relative pl-8">
                                 <span class="absolute left-0 top-0 font-black text-brut-purple">2.</span>
                                 <strong class="block">Nettoyage et dédoublonnage</strong>
                                 <span class="text-sm">On nettoie les données : emails invalides, doublons, formats
-                                    incohérents. Tout est standardisé.</span>
+                                    incohérents.</span>
                             </li>
                             <li class="relative pl-8">
                                 <span class="absolute left-0 top-0 font-black text-brut-purple">3.</span>
                                 <strong class="block">Mapping des champs</strong>
-                                <span class="text-sm">On fait correspondre les champs Hektor avec ceux d'Apimo. Nom,
-                                    prénom, email, téléphone, type de contact, etc.</span>
+                                <span class="text-sm">On fait correspondre les champs Hektor avec ceux d'Apimo.</span>
                             </li>
                             <li class="relative pl-8">
                                 <span class="absolute left-0 top-0 font-black text-brut-purple">4.</span>
                                 <strong class="block">Injection via API Apimo</strong>
-                                <span class="text-sm">On envoie les contacts un par un via l'API REST Apimo. Avec
-                                    gestion des erreurs et logs détaillés.</span>
+                                <span class="text-sm">On envoie les contacts via l'API REST Apimo avec gestion des
+                                    erreurs.</span>
                             </li>
                         </ol>
                     </div>
@@ -348,16 +347,6 @@
                         <div>budget</div>
                         <div class="text-center">→</div>
                         <div>budget_max</div>
-                        <div>secteur</div>
-                        <div class="text-center">→</div>
-                        <div>location</div>
-                    </div>
-                </div>
-                <div class="bg-gray-100 p-6 border-hard">
-                    <h4 class="font-bold mb-2">Types de contacts</h4>
-                    <div class="grid md:grid-cols-2 gap-4 text-sm">
-                        <div><span class="bg-brut-yellow px-2 font-mono">Propriétaire</span> → category: "owner"</div>
-                        <div><span class="bg-brut-green px-2 font-mono">Acquéreur</span> → category: "buyer"</div>
                     </div>
                 </div>
             </div>
@@ -371,8 +360,7 @@
             <div class="grid md:grid-cols-2 gap-6">
                 <div class="p-4 border-hard">
                     <h4 class="font-bold mb-2">🔒 Données sécurisées</h4>
-                    <p class="text-sm">Aucune donnée stockée sur serveur externe. Tout reste en local pendant le
-                        traitement.</p>
+                    <p class="text-sm">Aucune donnée stockée sur serveur externe. Tout reste en local.</p>
                 </div>
                 <div class="p-4 border-hard">
                     <h4 class="font-bold mb-2">✅ Validation</h4>
@@ -400,22 +388,22 @@
                     <div class="border border-gray-700 p-6 text-center">
                         <div class="font-mono text-brut-yellow text-xs mb-2">JOUR 1</div>
                         <div class="font-bold">Extraction</div>
-                        <div class="text-sm text-gray-400 mt-2">Script Python + récupération données Hektor</div>
+                        <div class="text-sm text-gray-400 mt-2">Script Python + récupération données</div>
                     </div>
                     <div class="border border-gray-700 p-6 text-center">
                         <div class="font-mono text-brut-yellow text-xs mb-2">JOUR 2</div>
                         <div class="font-bold">Nettoyage</div>
-                        <div class="text-sm text-gray-400 mt-2">Dédoublonnage + validation + normalisation</div>
+                        <div class="text-sm text-gray-400 mt-2">Dédoublonnage + validation</div>
                     </div>
                     <div class="border border-gray-700 p-6 text-center">
                         <div class="font-mono text-brut-yellow text-xs mb-2">JOUR 3</div>
                         <div class="font-bold">Mapping + Tests</div>
-                        <div class="text-sm text-gray-400 mt-2">Configuration API Apimo + tests sur échantillon</div>
+                        <div class="text-sm text-gray-400 mt-2">Config API + tests échantillon</div>
                     </div>
                     <div class="border border-gray-700 p-6 text-center bg-brut-green text-black">
                         <div class="font-mono text-xs mb-2">JOUR 4</div>
                         <div class="font-bold">Migration</div>
-                        <div class="text-sm mt-2">Injection complète + rapport final</div>
+                        <div class="text-sm mt-2">Injection complète + rapport</div>
                     </div>
                 </div>
             </div>
@@ -429,11 +417,11 @@
             <div class="grid md:grid-cols-3 gap-6">
                 <div class="p-4 border-hard">
                     <h4 class="font-bold mb-2">📞 Suivi pendant la mission</h4>
-                    <p class="text-sm">On reste en contact tout au long du projet. Questions, ajustements, on gère.</p>
+                    <p class="text-sm">On reste en contact tout au long du projet.</p>
                 </div>
                 <div class="p-4 border-hard">
                     <h4 class="font-bold mb-2">📄 Rapport de migration</h4>
-                    <p class="text-sm">Document détaillé avec stats : contacts migrés, erreurs, doublons détectés.</p>
+                    <p class="text-sm">Document détaillé avec stats : contacts migrés, erreurs, doublons.</p>
                 </div>
                 <div class="p-4 border-hard">
                     <h4 class="font-bold mb-2">🔧 Corrections post-migration</h4>
@@ -505,18 +493,16 @@
             <div class="space-y-6">
                 <div class="p-4 border-hard">
                     <h4 class="font-bold mb-2">C'est risqué pour mes données ?</h4>
-                    <p class="text-sm">Non. On extrait une copie, on ne touche pas aux originaux dans Hektor. Et on
-                        valide tout avant d'envoyer sur Apimo.</p>
+                    <p class="text-sm">Non. On extrait une copie, on ne touche pas aux originaux dans Hektor.</p>
                 </div>
                 <div class="p-4 border-hard">
                     <h4 class="font-bold mb-2">Et si Hektor bloque le script ?</h4>
                     <p class="text-sm">On a l'habitude. Le script est conçu pour être discret et respecter les limites.
-                        Aucun souci côté Hektor.</p>
+                    </p>
                 </div>
                 <div class="p-4 border-hard">
                     <h4 class="font-bold mb-2">Les doublons existants sur Apimo ?</h4>
-                    <p class="text-sm">On vérifie avant d'injecter. Si un contact existe déjà, on le met à jour au lieu
-                        de créer un doublon.</p>
+                    <p class="text-sm">On vérifie avant d'injecter. Si un contact existe déjà, on le met à jour.</p>
                 </div>
             </div>
         </section>
