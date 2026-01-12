@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export Contacts Hektor → Apimo /// BAPTISTE FORT</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brut-accent': '#FF3C00',
+                        'brut-green': '#00FF41',
+                        'brut-purple': '#9D00FF',
+                        'brut-yellow': '#FAFF00',
+                    },
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            background-image: linear-gradient(#ccc 1px, transparent 1px), linear-gradient(90deg, #ccc 1px, transparent 1px);
+            background-size: 40px 40px;
+            overflow-x: hidden;
+        }
+
+        .border-hard {
+            border: 3px solid black;
+        }
+
+        .shadow-hard {
+            box-shadow: 8px 8px 0px 0px black;
+        }
+
+        .brut-box {
+            background: white;
+            border: 3px solid black;
+            box-shadow: 8px 8px 0px 0px black;
+            transition: all 0.2s ease;
+        }
+
+        .brut-box:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0px 0px black;
+        }
+
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 30s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        ul.check-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        ul.check-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #00FF41;
+            font-weight: bold;
+            background: black;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+    </style>
+</head>
+
+<body class="text-black selection:bg-brut-yellow">
+
+    <!-- NAV -->
+    <nav class="fixed top-0 w-full z-50 bg-white border-b-4 border-black flex justify-between items-stretch">
+        <div class="px-6 py-4 bg-black text-white font-display font-bold text-2xl tracking-tighter flex items-center">
+            BAPTISTE<span class="text-brut-yellow">/</span>FORT
+        </div>
+        <div
+            class="hidden md:flex flex-1 items-center overflow-hidden bg-brut-yellow border-l-4 border-black border-r-4">
+            <div class="marquee-container w-full font-mono font-bold text-sm">
+                <div class="marquee-content">
+                    /// EXPORT CONTACTS HEKTOR → APIMO /// 14 445 CONTACTS /// PYTHON + API /// RÉSEAU BONAPARTE ///
+                    /// EXPORT CONTACTS HEKTOR → APIMO /// 14 445 CONTACTS /// PYTHON + API /// RÉSEAU BONAPARTE ///
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HEADER -->
+    <header class="pt-32 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
+        <div class="bg-white border-hard p-8 md:p-12 shadow-hard mb-12 relative">
+            <div
+                class="absolute -top-4 -left-4 bg-brut-purple text-white font-mono font-bold px-4 py-2 border-hard transform -rotate-2">
+                PROPOSITION DE MISSION
+            </div>
+
+            <h1 class="font-display font-black text-5xl md:text-7xl mb-8 leading-none">
+                BONJOUR<br>
+                <span class="text-brut-accent">RÉSEAU BONAPARTE</span>
+            </h1>
+
+            <div class="space-y-6 text-lg font-sans font-medium max-w-4xl">
+                <p>L'objectif est simple : récupérer tous vos contacts dans Hektor et les transférer vers Apimo. On
+                    parle de <strong>14 445 contacts</strong> au total.</p>
+                <p>Hektor ne propose pas d'API, donc on va utiliser un script Python pour extraire proprement toutes les
+                    données. Ensuite, on mappe les champs et on envoie tout ça vers Apimo via leur API.</p>
+                <p class="font-bold">Rien de compliqué, c'est du transfert de données bien fait.</p>
+            </div>
+        </div>
+
+        <!-- STATS -->
+        <div class="grid md:grid-cols-12 gap-8 items-stretch">
+            <div class="md:col-span-8 bg-black text-white border-hard p-8 md:p-12 shadow-hard relative overflow-hidden">
+                <h2 class="font-display font-black text-4xl md:text-5xl mb-6 text-brut-green">
+                    <span class="text-white text-lg font-mono block mb-2 font-normal">// LES CHIFFRES</span>
+                    14 445 CONTACTS<br>À MIGRER
+                </h2>
+
+                <div class="grid grid-cols-2 gap-6 mt-8">
+                    <div class="border border-gray-700 p-6 text-center">
+                        <div class="font-display font-black text-4xl text-brut-green">12 225</div>
+                        <div class="font-mono text-sm text-gray-400 mt-2">Acquéreurs</div>
+                    </div>
+                    <div class="border border-gray-700 p-6 text-center">
+                        <div class="font-display font-black text-4xl text-brut-yellow">2 220</div>
+                        <div class="font-mono text-sm text-gray-400 mt-2">Propriétaires</div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="md:col-span-4 bg-brut-yellow border-hard p-8 shadow-hard flex flex-col justify-center transform rotate-1">
+                <h3 class="font-bold font-mono text-xl mb-4 border-b-4 border-black pb-2">EN RÉSUMÉ</h3>
+                <p class="text-black font-bold text-lg">On récupère vos contacts Hektor, on les nettoie, on les mappe,
+                    et on les envoie sur Apimo. Simple et efficace.</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="px-4 md:px-8 max-w-7xl mx-auto pb-32 space-y-24">
+
+        <!-- 01. LE PROBLÈME -->
+        <section class="brut-box p-0">
+            <div class="bg-black text-white p-4 md:p-6 flex justify-between items-center border-b-4 border-black">
+                <h2 class="font-display font-black text-3xl md:text-4xl text-brut-accent">01. LE PROBLÈME</h2>
+            </div>
+            <div class="p-8 md:p-12">
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div>
+                        <p class="mb-4">Hektor ne propose pas d'export simple de vos contacts. Pas d'API, pas de bouton
+                            magique. Vos 14 445 contacts sont bloqués là-bas.</p>
+                        <p class="font-bold text-lg mb-4">Résultat : impossible de les utiliser sur Apimo sans les
+                            ressaisir un par un. C'est-à-dire des semaines de travail manuel.</p>
+                    </div>
+                    <div class="bg-gray-100 p-6 border-hard">
+                        <p class="mb-2 font-bold">Ce que ça implique aujourd'hui :</p>
+                        <ul class="list-disc pl-5 mb-4 text-sm">
+                            <li>Contacts bloqués dans Hektor</li>
+                            <li>Pas d'export automatique possible</li>
+                            <li>Ressaisie manuelle = erreurs + temps perdu</li>
+                            <li>Doublons et incohérences</li>
+                        </ul>
+                        <p class="mb-2 font-bold bg-brut-green inline-block px-1">Avec notre solution :</p>
+                        <ul class="list-disc pl-5 text-sm">
+                            <li>Extraction automatique via Python</li>
+                            <li>Nettoyage et dédoublonnage</li>
+                            <li>Mapping intelligent Hektor → Apimo</li>
+                            <li>Injection via API Apimo</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 02. LA SOLUTION -->
+        <section class="brut-box p-0">
+            <div class="bg-brut-purple text-white p-4 md:p-6 flex justify-between items-center border-b-4 border-black">
+                <h2 class="font-display font-black text-3xl md:text-4xl">02. COMMENT ON FAIT</h2>
+            </div>
+            <div class="p-8 md:p-12">
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div>
+                        <h3 class="font-mono font-bold text-xl mb-4 text-brut-purple">LES 4 ÉTAPES</h3>
+                        <ol class="space-y-6">
+                            <li class="relative pl-8">
+                                <span class="absolute left-0 top-0 font-black text-brut-purple">1.</span>
+                                <strong class="block">Extraction des données Hektor</strong>
+                                <span class="text-sm">Script Python qui récupère tous les contacts depuis l'interface
+                                    Hektor. On parse les pages, on extrait les infos.</span>
+                            </li>
+                            <li class="relative pl-8">
+                                <span class="absolute left-0 top-0 font-black text-brut-purple">2.</span>
+                                <strong class="block">Nettoyage et dédoublonnage</strong>
+                                <span class="text-sm">On nettoie les données : emails invalides, doublons, formats
+                                    incohérents. Tout est standardisé.</span>
+                            </li>
+                            <li class="relative pl-8">
+                                <span class="absolute left-0 top-0 font-black text-brut-purple">3.</span>
+                                <strong class="block">Mapping des champs</strong>
+                                <span class="text-sm">On fait correspondre les champs Hektor avec ceux d'Apimo. Nom,
+                                    prénom, email, téléphone, type de contact, etc.</span>
+                            </li>
+                            <li class="relative pl-8">
+                                <span class="absolute left-0 top-0 font-black text-brut-purple">4.</span>
+                                <strong class="block">Injection via API Apimo</strong>
+                                <span class="text-sm">On envoie les contacts un par un via l'API REST Apimo. Avec
+                                    gestion des erreurs et logs détaillés.</span>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="flex flex-col gap-6">
+                        <div class="bg-gray-50 p-6 border-hard">
+                            <h4 class="font-bold border-b border-black mb-2">CE QUE VOUS OBTENEZ</h4>
+                            <ul class="check-list text-sm space-y-2">
+                                <li>Tous vos contacts sur Apimo</li>
+                                <li>Propriétaires et acquéreurs bien catégorisés</li>
+                                <li>Données propres et sans doublons</li>
+                                <li>Rapport de migration détaillé</li>
+                            </ul>
+                        </div>
+                        <div class="bg-black text-white p-6 border-hard shadow-hard">
+                            <h4 class="font-mono font-bold text-brut-green mb-4">TECHNOLOGIES</h4>
+                            <ul class="text-sm space-y-1 list-disc pl-4 text-gray-300">
+                                <li>Python 3.12</li>
+                                <li>Selenium / Playwright</li>
+                                <li>API REST Apimo v3</li>
+                                <li>Pandas (nettoyage données)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 03. GAINS DE TEMPS -->
+        <section class="brut-box p-0">
+            <div class="bg-brut-green text-black p-4 md:p-6 flex justify-between items-center border-b-4 border-black">
+                <h2 class="font-display font-black text-3xl md:text-4xl">03. GAINS DE TEMPS</h2>
+            </div>
+            <div class="p-8 md:p-12">
+                <div class="grid md:grid-cols-3 gap-8 mb-12">
+                    <div class="border-hard p-6 text-center">
+                        <div class="font-display font-black text-4xl">2 min</div>
+                        <div class="font-mono text-sm text-gray-600 mt-2">par contact en manuel</div>
+                    </div>
+                    <div class="border-hard p-6 text-center bg-brut-accent text-white">
+                        <div class="font-display font-black text-4xl">480h</div>
+                        <div class="font-mono text-sm mt-2">économisées au total</div>
+                    </div>
+                    <div class="border-hard p-6 text-center">
+                        <div class="font-display font-black text-4xl">4 jours</div>
+                        <div class="font-mono text-sm text-gray-600 mt-2">de développement</div>
+                    </div>
+                </div>
+                <div class="bg-gray-100 p-8 border-hard">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="font-bold mb-2">⏱️ Sans automatisation</h4>
+                            <ul class="text-sm list-disc pl-4 text-gray-600">
+                                <li>14 445 contacts × 2 min = 481 heures</li>
+                                <li>Soit 60 jours de travail</li>
+                                <li>Risque d'erreurs élevé</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold mb-2">🚀 Avec notre solution</h4>
+                            <ul class="text-sm list-disc pl-4 text-gray-600">
+                                <li>4 jours de développement</li>
+                                <li>Exécution automatique en 1h</li>
+                                <li>Zéro erreur, tout est validé</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 04. MAPPING DES DONNÉES -->
+        <section class="brut-box p-0">
+            <div class="bg-brut-yellow text-black p-4 md:p-6 flex justify-between items-center border-b-4 border-black">
+                <h2 class="font-display font-black text-3xl md:text-4xl">04. MAPPING DES DONNÉES</h2>
+            </div>
+            <div class="p-8 md:p-12">
+                <p class="mb-6">On fait correspondre chaque champ Hektor avec son équivalent Apimo :</p>
+                <div class="bg-black text-white p-6 border-hard mb-6 font-mono text-sm">
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="text-brut-yellow">Hektor</div>
+                        <div class="text-center">→</div>
+                        <div class="text-brut-green">Apimo</div>
+                    </div>
+                    <div class="border-t border-gray-700 my-4"></div>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div>nom</div>
+                        <div class="text-center">→</div>
+                        <div>lastname</div>
+                        <div>prenom</div>
+                        <div class="text-center">→</div>
+                        <div>firstname</div>
+                        <div>email</div>
+                        <div class="text-center">→</div>
+                        <div>email</div>
+                        <div>telephone</div>
+                        <div class="text-center">→</div>
+                        <div>phone</div>
+                        <div>type_contact</div>
+                        <div class="text-center">→</div>
+                        <div>category</div>
+                        <div>budget</div>
+                        <div class="text-center">→</div>
+                        <div>budget_max</div>
+                        <div>secteur</div>
+                        <div class="text-center">→</div>
+                        <div>location</div>
+                    </div>
+                </div>
+                <div class="bg-gray-100 p-6 border-hard">
+                    <h4 class="font-bold mb-2">Types de contacts</h4>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm">
+                        <div><span class="bg-brut-yellow px-2 font-mono">Propriétaire</span> → category: "owner"</div>
+                        <div><span class="bg-brut-green px-2 font-mono">Acquéreur</span> → category: "buyer"</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 05. SÉCURITÉ -->
+        <section class="brut-box p-8">
+            <div class="border-b-4 border-black pb-4 mb-6">
+                <h2 class="font-display font-black text-2xl">05. SÉCURITÉ & FIABILITÉ</h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="p-4 border-hard">
+                    <h4 class="font-bold mb-2">🔒 Données sécurisées</h4>
+                    <p class="text-sm">Aucune donnée stockée sur serveur externe. Tout reste en local pendant le
+                        traitement.</p>
+                </div>
+                <div class="p-4 border-hard">
+                    <h4 class="font-bold mb-2">✅ Validation</h4>
+                    <p class="text-sm">Chaque contact est validé avant injection. Emails vérifiés, formats normalisés.
+                    </p>
+                </div>
+                <div class="p-4 border-hard">
+                    <h4 class="font-bold mb-2">📋 Logs détaillés</h4>
+                    <p class="text-sm">Historique complet de la migration. On sait exactement ce qui a été fait.</p>
+                </div>
+                <div class="p-4 border-hard">
+                    <h4 class="font-bold mb-2">🔄 Rollback possible</h4>
+                    <p class="text-sm">En cas de problème, on peut revenir en arrière facilement.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 06. PLANNING -->
+        <section class="brut-box p-0 bg-black text-white">
+            <div class="p-6 md:p-8">
+                <div class="flex flex-col md:flex-row gap-6 items-center border-b-4 border-brut-accent pb-6 mb-8">
+                    <h2 class="font-display font-black text-4xl text-brut-accent">06. PLANNING</h2>
+                </div>
+                <div class="grid md:grid-cols-4 gap-6">
+                    <div class="border border-gray-700 p-6 text-center">
+                        <div class="font-mono text-brut-yellow text-xs mb-2">JOUR 1</div>
+                        <div class="font-bold">Extraction</div>
+                        <div class="text-sm text-gray-400 mt-2">Script Python + récupération données Hektor</div>
+                    </div>
+                    <div class="border border-gray-700 p-6 text-center">
+                        <div class="font-mono text-brut-yellow text-xs mb-2">JOUR 2</div>
+                        <div class="font-bold">Nettoyage</div>
+                        <div class="text-sm text-gray-400 mt-2">Dédoublonnage + validation + normalisation</div>
+                    </div>
+                    <div class="border border-gray-700 p-6 text-center">
+                        <div class="font-mono text-brut-yellow text-xs mb-2">JOUR 3</div>
+                        <div class="font-bold">Mapping + Tests</div>
+                        <div class="text-sm text-gray-400 mt-2">Configuration API Apimo + tests sur échantillon</div>
+                    </div>
+                    <div class="border border-gray-700 p-6 text-center bg-brut-green text-black">
+                        <div class="font-mono text-xs mb-2">JOUR 4</div>
+                        <div class="font-bold">Migration</div>
+                        <div class="text-sm mt-2">Injection complète + rapport final</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 07. SUPPORT -->
+        <section class="brut-box p-8">
+            <div class="border-b-4 border-black pb-4 mb-6">
+                <h2 class="font-display font-black text-2xl">07. SUPPORT INCLUS</h2>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="p-4 border-hard">
+                    <h4 class="font-bold mb-2">📞 Suivi pendant la mission</h4>
+                    <p class="text-sm">On reste en contact tout au long du projet. Questions, ajustements, on gère.</p>
+                </div>
+                <div class="p-4 border-hard">
+                    <h4 class="font-bold mb-2">📄 Rapport de migration</h4>
+                    <p class="text-sm">Document détaillé avec stats : contacts migrés, erreurs, doublons détectés.</p>
+                </div>
+                <div class="p-4 border-hard">
+                    <h4 class="font-bold mb-2">🔧 Corrections post-migration</h4>
+                    <p class="text-sm">Si on trouve des soucis après, on corrige sans frais supplémentaires.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 08. INVESTISSEMENT -->
+        <section class="brut-box p-0 bg-brut-accent text-white">
+            <div class="p-8 md:p-12">
+                <div class="flex flex-col md:flex-row gap-6 items-center border-b-4 border-white pb-6 mb-8">
+                    <h2 class="font-display font-black text-4xl">08. INVESTISSEMENT</h2>
+                </div>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <p class="mb-6 text-lg">Le prix comprend tout : développement, tests, migration, rapport et
+                            support post-migration.</p>
+                        <ul class="space-y-2 text-sm font-mono">
+                            <li>✓ Extraction complète Hektor</li>
+                            <li>✓ Nettoyage et dédoublonnage</li>
+                            <li>✓ Mapping et validation</li>
+                            <li>✓ Injection API Apimo</li>
+                            <li>✓ Rapport de migration</li>
+                            <li>✓ Support post-migration</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white text-black p-8 border-hard shadow-hard text-center">
+                        <span class="block font-mono text-xs text-gray-500 uppercase mb-2">Montant Total HT</span>
+                        <span class="block font-display font-black text-6xl tracking-tight">1 400 €</span>
+                        <span class="block font-mono text-brut-accent mt-2">4 jours de travail</span>
+                        <div class="mt-4 pt-4 border-t-2 border-black text-xs text-left">
+                            TVA non applicable (art. 293 B du CGI)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 09. PROCHAINES ÉTAPES -->
+        <section class="brut-box p-8">
+            <div class="border-b-4 border-black pb-4 mb-6">
+                <h2 class="font-display font-black text-2xl">09. PROCHAINES ÉTAPES</h2>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="p-4 border-hard bg-brut-yellow">
+                    <div class="font-mono text-xs mb-2">ÉTAPE 1</div>
+                    <h4 class="font-bold mb-2">Validation du devis</h4>
+                    <p class="text-sm">Vous validez cette proposition et on démarre.</p>
+                </div>
+                <div class="p-4 border-hard">
+                    <div class="font-mono text-xs mb-2">ÉTAPE 2</div>
+                    <h4 class="font-bold mb-2">Accès Hektor</h4>
+                    <p class="text-sm">Vous me donnez les accès pour lancer l'extraction.</p>
+                </div>
+                <div class="p-4 border-hard bg-brut-green">
+                    <div class="font-mono text-xs mb-2">ÉTAPE 3</div>
+                    <h4 class="font-bold mb-2">C'est parti !</h4>
+                    <p class="text-sm">4 jours plus tard, vos contacts sont sur Apimo.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10. QUESTIONS -->
+        <section class="brut-box p-8">
+            <div class="border-b-4 border-black pb-4 mb-6">
+                <h2 class="font-display font-black text-2xl">10. QUESTIONS FRÉQUENTES</h2>
+            </div>
+            <div class="space-y-6">
+                <div class="p-4 border-hard">
+                    <h4 class="font-bold mb-2">C'est risqué pour mes données ?</h4>
+                    <p class="text-sm">Non. On extrait une copie, on ne touche pas aux originaux dans Hektor. Et on
+                        valide tout avant d'envoyer sur Apimo.</p>
+                </div>
+                <div class="p-4 border-hard">
+                    <h4 class="font-bold mb-2">Et si Hektor bloque le script ?</h4>
+                    <p class="text-sm">On a l'habitude. Le script est conçu pour être discret et respecter les limites.
+                        Aucun souci côté Hektor.</p>
+                </div>
+                <div class="p-4 border-hard">
+                    <h4 class="font-bold mb-2">Les doublons existants sur Apimo ?</h4>
+                    <p class="text-sm">On vérifie avant d'injecter. Si un contact existe déjà, on le met à jour au lieu
+                        de créer un doublon.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-black text-white py-20 px-4 md:px-8 border-t-8 border-brut-accent">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="mb-12 font-sans text-xl leading-relaxed">
+                <p class="font-bold mb-4">Voilà, c'est aussi simple que ça.</p>
+                <p class="mb-4">14 445 contacts, 4 jours de travail, et tout est sur Apimo.</p>
+                <p class="mb-8">On se lance quand vous voulez.</p>
+            </div>
+
+            <a href="https://wa.me/33626105640?text=On%20attaque%20cette%20mission%20Export%20Contacts%20Hektor%20vers%20Apimo"
+                target="_blank" rel="noopener noreferrer"
+                class="inline-block font-display font-black text-3xl md:text-5xl bg-brut-accent text-white px-12 py-6 border-4 border-white shadow-[8px_8px_0px_0px_white] hover:bg-white hover:text-black hover:border-brut-accent hover:shadow-[12px_12px_0px_0px_#FF3C00] transition-all transform hover:-translate-y-2 decoration-0">
+                ON LANCE LA MISSION ?
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) })
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf) }
+        requestAnimationFrame(raf)
+
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.utils.toArray('section').forEach(section => {
+            gsap.from(section, { opacity: 0, y: 50, duration: 0.8, ease: "power2.out", scrollTrigger: { trigger: section, start: "top 90%" } });
+        });
+        gsap.from("h1", { y: 50, opacity: 0, duration: 1, delay: 0.3, ease: "power3.out" });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FACTURE /// Export Contacts Hektor → Apimo</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: #f5f5f5;
+            color: #1a1a1a;
+        }
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .page {
+                box-shadow: none;
+            }
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 20px auto;
+            background: white;
+            padding: 20mm;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10mm;
+            padding-bottom: 8mm;
+            border-bottom: 4px solid #1a1a1a;
+        }
+
+        .doc-type {
+            display: inline-block;
+            background: #00FF41;
+            border: 3px solid black;
+            padding: 3px 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 5mm;
+            transform: rotate(-2deg);
+        }
+
+        .title {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -2px;
+        }
+
+        .title span {
+            color: #FF3C00;
+        }
+
+        .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #888;
+            margin-top: 2mm;
+        }
+
+        .meta {
+            text-align: right;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+        }
+
+        .meta-row {
+            margin-bottom: 2mm;
+        }
+
+        .meta-label {
+            color: #888;
+        }
+
+        .meta-value {
+            font-weight: 700;
+            color: #FF3C00;
+        }
+
+        .parties {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8mm;
+            margin-bottom: 10mm;
+        }
+
+        .party {
+            padding: 6mm;
+            border: 3px solid #1a1a1a;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+        }
+
+        .party.from {
+            background: #1a1a1a;
+            color: white;
+            box-shadow: 6px 6px 0 0 #1a1a1a;
+        }
+
+        .party.to {
+            box-shadow: 6px 6px 0 0 #1a1a1a;
+        }
+
+        .party-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4mm;
+            padding-bottom: 2mm;
+            border-bottom: 1px solid currentColor;
+            opacity: 0.6;
+        }
+
+        .party-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 3mm;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .party.from .party-name {
+            color: #00FF41;
+        }
+
+        .table {
+            border: 3px solid #1a1a1a;
+            margin-bottom: 8mm;
+            box-shadow: 6px 6px 0 0 #1a1a1a;
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 1fr 100px;
+            background: #1a1a1a;
+            color: white;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .table-header div {
+            padding: 4mm 5mm;
+        }
+
+        .table-header div:last-child {
+            text-align: right;
+            border-left: 3px solid #333;
+        }
+
+        .table-body {
+            padding: 6mm;
+        }
+
+        .table-body h4 {
+            font-size: 16px;
+            margin-bottom: 4mm;
+        }
+
+        .table-body ul {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            margin-left: 5mm;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .table-footer {
+            display: grid;
+            grid-template-columns: 1fr 100px;
+            border-top: 3px solid #1a1a1a;
+            background: #00FF41;
+        }
+
+        .table-footer div {
+            padding: 5mm;
+            font-weight: 700;
+        }
+
+        .table-footer div:first-child {
+            text-align: right;
+            border-right: 3px solid #1a1a1a;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .table-footer div:last-child {
+            text-align: right;
+            font-size: 22px;
+            font-family: 'Space Grotesk', sans-serif;
+            white-space: nowrap;
+        }
+
+        .payment {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6mm;
+            margin-bottom: 8mm;
+        }
+
+        .payment-box {
+            padding: 5mm;
+            border: 3px solid #1a1a1a;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+        }
+
+        .payment-box h4 {
+            font-size: 11px;
+            margin-bottom: 3mm;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 2mm;
+        }
+
+        .status {
+            padding: 5mm;
+            border: 3px solid #1a1a1a;
+            background: #FAFF00;
+            text-align: center;
+        }
+
+        .status-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .footer {
+            margin-top: 8mm;
+            padding-top: 4mm;
+            border-top: 1px solid #ddd;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 8px;
+            color: #888;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <div class="header">
+            <div>
+                <div class="doc-type">FACTURE</div>
+                <div class="title">FAC<span>TURE</span></div>
+                <div class="subtitle">Document Comptable</div>
+            </div>
+            <div class="meta">
+                <div class="meta-row"><span class="meta-label">N°</span> <span class="meta-value">FAC-2026-002</span>
+                </div>
+                <div class="meta-row"><span class="meta-label">Date</span> <span class="meta-value">12/01/2026</span>
+                </div>
+                <div class="meta-row"><span class="meta-label">Échéance</span> <span class="meta-value">À
+                        réception</span></div>
+            </div>
+        </div>
+
+        <div class="parties">
+            <div class="party from">
+                <div class="party-label">Prestataire</div>
+                <div class="party-name">BAPTISTE FORT</div>
+                <div>Développement & Automatisation</div>
+                <div style="margin-top: 3mm;">1 RUE DU ROI DAGOBERT</div>
+                <div>94130 NOGENT-SUR-MARNE</div>
+                <div style="margin-top: 3mm; opacity: 0.6;">SIRET: 90939247400013</div>
+            </div>
+            <div class="party to">
+                <div class="party-label">Client</div>
+                <div class="party-name">RÉSEAU BONAPARTE</div>
+                <div>Agence Immobilière</div>
+                <div style="margin-top: 3mm;">Adresse client</div>
+                <div>Ville, Code Postal</div>
+            </div>
+        </div>
+
+        <div class="table">
+            <div class="table-header">
+                <div>Désignation</div>
+                <div>Montant HT</div>
+            </div>
+            <div class="table-body">
+                <h4>Export Contacts Hektor → Apimo (14 445 contacts)</h4>
+                <ul>
+                    <li>• Développement script Python extraction Hektor</li>
+                    <li>• Extraction des 12 225 acquéreurs</li>
+                    <li>• Extraction des 2 220 propriétaires</li>
+                    <li>• Nettoyage et dédoublonnage des données</li>
+                    <li>• Mapping des champs Hektor → Apimo</li>
+                    <li>• Intégration API REST Apimo v3</li>
+                    <li>• Migration complète des contacts</li>
+                    <li>• Rapport de migration détaillé</li>
+                    <li>• Support post-migration</li>
+                </ul>
+            </div>
+            <div class="table-footer">
+                <div>TOTAL NET À PAYER</div>
+                <div>1 400 €</div>
+            </div>
+        </div>
+
+        <div class="payment">
+            <div class="payment-box">
+                <h4>COORDONNÉES BANCAIRES</h4>
+                <div>IBAN : FR76 XXXX XXXX XXXX XXXX XXXX XXX</div>
+                <div>BIC : XXXXXXXX</div>
+                <div style="margin-top: 2mm;">Titulaire : Baptiste Fort</div>
+            </div>
+            <div class="status">
+                <div class="status-badge">⏳ EN ATTENTE DE VALIDATION</div>
+                <div style="font-size: 9px; margin-top: 2mm; font-family: 'JetBrains Mono', monospace;">
+                    Facture émise après validation du devis
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Baptiste Fort — SIRET 90939247400013 — TVA non applicable (art. 293 B du CGI) — Facture générée le
+            12/01/2026
+        </div>
+    </div>
+</body>
+
+</html>
